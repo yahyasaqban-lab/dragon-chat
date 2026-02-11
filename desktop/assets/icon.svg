@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="100%" style="stop-color:#ff6b6b"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+  
+  <!-- Dragon body -->
+  <path d="M256 80 C180 100, 120 180, 120 260 C120 340, 160 400, 220 420 L256 380 L292 420 C352 400, 392 340, 392 260 C392 180, 332 100, 256 80" fill="url(#accent)"/>
+  
+  <!-- Dragon face -->
+  <ellipse cx="200" cy="220" rx="25" ry="35" fill="#1a1a2e"/>
+  <ellipse cx="312" cy="220" rx="25" ry="35" fill="#1a1a2e"/>
+  <ellipse cx="205" cy="215" rx="12" ry="18" fill="#fff"/>
+  <ellipse cx="317" cy="215" rx="12" ry="18" fill="#fff"/>
+  
+  <!-- Nostrils -->
+  <ellipse cx="240" cy="290" rx="8" ry="12" fill="#1a1a2e"/>
+  <ellipse cx="272" cy="290" rx="8" ry="12" fill="#1a1a2e"/>
+  
+  <!-- Horns -->
+  <path d="M180 130 Q160 80, 140 60 Q165 90, 180 130" fill="#ff6b6b"/>
+  <path d="M332 130 Q352 80, 372 60 Q347 90, 332 130" fill="#ff6b6b"/>
+  
+  <!-- Spikes -->
+  <path d="M256 80 L270 50 L284 80" fill="#ff6b6b"/>
+  <path d="M220 90 L228 60 L240 90" fill="#e94560"/>
+  <path d="M272 90 L284 60 L292 90" fill="#e94560"/>
+  
+  <!-- Chat bubble -->
+  <path d="M350 320 Q420 320, 420 380 Q420 440, 350 440 L320 440 L300 470 L310 440 Q280 440, 280 380 Q280 320, 350 320" fill="#fff" opacity="0.9"/>
+  <circle cx="320" cy="380" r="10" fill="#e94560"/>
+  <circle cx="350" cy="380" r="10" fill="#e94560"/>
+  <circle cx="380" cy="380" r="10" fill="#e94560"/>
+</svg>

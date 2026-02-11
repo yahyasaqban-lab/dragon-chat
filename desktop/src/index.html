@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src https://*.y7xyz.com wss://*.y7xyz.com; img-src 'self' data: https:; media-src 'self' https:;">
+    <title>Dragon Chat</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen">
+            <div class="login-container">
+                <div class="logo">
+                    <span class="logo-icon">🐉</span>
+                    <h1>Dragon Chat</h1>
+                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="homeserver">Homeserver</label>
+                        <input type="url" id="homeserver" value="https://matrix.y7xyz.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="@user:y7xyz.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign In</button>
+                    <p class="register-link">Don't have an account? <a href="#" id="register-link">Register</a></p>
+                </form>
+                <div id="login-error" class="error hidden"></div>
+            </div>
+        </div>
+
+        <!-- Main Chat Screen -->
+        <div id="main-screen" class="screen hidden">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <span class="logo-small">🐉</span>
+                    <span class="app-name">Dragon Chat</span>
+                </div>
+                
+                <!-- User Info -->
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar"></div>
+                    <div class="user-details">
+                        <span class="user-name" id="user-name">Loading...</span>
+                        <span class="user-status">🟢 Online</span>
+                    </div>
+                </div>
+
+                <!-- Room List -->
+                <div class="room-section">
+                    <div class="section-header">
+                        <span>Direct Messages</span>
+                        <button class="btn-icon" id="new-dm-btn">+</button>
+                    </div>
+                    <div class="room-list" id="dm-list"></div>
+                </div>
+
+                <div class="room-section">
+                    <div class="section-header">
+                        <span>Rooms</span>
+                        <button class="btn-icon" id="new-room-btn">+</button>
+                    </div>
+                    <div class="room-list" id="room-list"></div>
+                </div>
+
+                <div class="room-section">
+                    <div class="section-header">
+                        <span>Voice Channels</span>
+                        <button class="btn-icon" id="new-voice-btn">+</button>
+                    </div>
+                    <div class="room-list" id="voice-list"></div>
+                </div>
+
+                <!-- Settings -->
+                <div class="sidebar-footer">
+                    <button class="btn-icon" id="settings-btn">⚙️</button>
+                    <button class="btn-icon" id="logout-btn">🚪</button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Room Header -->
+                <div class="room-header">
+                    <div class="room-info">
+                        <span class="room-name" id="current-room-name">Select a room</span>
+                        <span class="room-topic" id="current-room-topic"></span>
+                    </div>
+                    <div class="room-actions">
+                        <button class="btn-icon" id="voice-call-btn" title="Voice Call">📞</button>
+                        <button class="btn-icon" id="video-call-btn" title="Video Call">📹</button>
+                        <button class="btn-icon" id="screen-share-btn" title="Screen Share">🖥️</button>
+                        <button class="btn-icon" id="room-settings-btn" title="Room Settings">⚙️</button>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages-container" id="messages-container">
+                    <div class="messages" id="messages">
+                        <div class="welcome-message">
+                            <span class="logo-large">🐉</span>
+                            <h2>Welcome to Dragon Chat</h2>
+                            <p>Select a room to start chatting</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="message-input-container">
+                    <button class="btn-icon" id="attach-btn">📎</button>
+                    <input type="text" id="message-input" placeholder="Type a message..." disabled>
+                    <button class="btn-icon" id="emoji-btn">😊</button>
+                    <button class="btn-primary" id="send-btn" disabled>Send</button>
+                </div>
+            </div>
+
+            <!-- Right Sidebar (Members) -->
+            <div class="right-sidebar" id="right-sidebar">
+                <div class="section-header">
+                    <span>Members</span>
+                    <span class="member-count" id="member-count">0</span>
+                </div>
+                <div class="member-list" id="member-list"></div>
+            </div>
+        </div>
+
+        <!-- Video Call Overlay -->
+        <div id="call-overlay" class="overlay hidden">
+            <div class="call-container">
+                <div class="call-header">
+                    <span id="call-title">Voice Call</span>
+                    <button class="btn-icon" id="call-minimize">−</button>
+                </div>
+                <div class="video-grid" id="video-grid">
+                    <!-- Video tiles will be added here -->
+                </div>
+                <div class="call-controls">
+                    <button class="btn-call" id="toggle-mute">🎤</button>
+                    <button class="btn-call" id="toggle-video">📹</button>
+                    <button class="btn-call" id="toggle-screen">🖥️</button>
+                    <button class="btn-call btn-end" id="end-call">📵</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="btn-icon" id="close-settings">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Appearance</h3>
+                        <div class="setting-item">
+                            <label>Theme</label>
+                            <select id="theme-select">
+                                <option value="dark">Dark</option>
+                                <option value="light">Light</option>
+                                <option value="system">System</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="setting-item">
+                            <label>Enable Notifications</label>
+                            <input type="checkbox" id="notifications-toggle" checked>
+                        </div>
+                        <div class="setting-item">
+                            <label>Sound</label>
+                            <input type="checkbox" id="sound-toggle" checked>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Voice & Video</h3>
+                        <div class="setting-item">
+                            <label>Input Device</label>
+                            <select id="input-device"></select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Output Device</label>
+                            <select id="output-device"></select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Camera</label>
+                            <select id="camera-device"></select>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <h3>Advanced</h3>
+                        <div class="setting-item">
+                            <label>Homeserver</label>
+                            <input type="text" id="settings-homeserver" readonly>
+                        </div>
+                        <div class="setting-item">
+                            <label>LiveKit Server</label>
+                            <input type="text" id="settings-livekit" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
